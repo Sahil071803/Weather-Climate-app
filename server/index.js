@@ -7,8 +7,15 @@ const PORT = process.env.PORT || 5000;
 const API_KEY = process.env.WEATHER_API_KEY;
 const API_BASE = "https://api.weatherapi.com/v1";
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.ORIGIN || true,
+  credentials: true,
+}));
 app.use(express.json());
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", time: new Date().toISOString() });
+});
 
 app.get("/api/weather", async (req, res) => {
   try {

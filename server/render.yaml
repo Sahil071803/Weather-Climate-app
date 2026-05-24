@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: weather-app-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: WEATHER_API_KEY
+        sync: false
+      - key: ORIGIN
+        value: https://weather-climate-app.vercel.app

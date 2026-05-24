@@ -31,11 +31,13 @@ export default function useWeather() {
     document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
   const fetchWeather = useCallback(async (query) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/weather?q=${encodeURIComponent(query)}`);
+      const res = await fetch(`${API_BASE}/api/weather?q=${encodeURIComponent(query)}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Location not found");
       setWeatherData(data);
@@ -52,7 +54,7 @@ export default function useWeather() {
   const searchCities = useCallback(async (query) => {
     if (query.length < 2) return [];
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      const res = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(query)}`);
       if (!res.ok) return [];
       return await res.json();
     } catch {
